@@ -20,6 +20,7 @@ public class JsonObject implements Json{
 
     /*convert  String  to Json */
     public JsonObject(String json){
+        json = json.replaceAll("\n","");
         map = new LinkedHashMap<String, Value>();
         for(JsonPair jsonPair:new JPairGenerator(json)){
             map.put(jsonPair.getKey(),jsonPair.getValue());

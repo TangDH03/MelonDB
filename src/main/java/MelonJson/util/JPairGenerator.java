@@ -15,9 +15,9 @@ public class JPairGenerator implements Iterable<JsonPair> {
     private static final  String iValue = "-?\\d+";
     private static final  String dValue = "[\\\\+\\\\-]{0,1}[0-9]+[\\\\.\\\\,][0-9]+";
     private static final  String Key = "\"[^\\s]+?\"";
-    private static final String KV = Key+":"+"("+"("+sValue+")"+"|"+"("+bValue+")"+"|"+"("+dValue+")"+"|"+"("+iValue+")" +")";
+    private static final String KV = Key+":"+"\\s*"+"("+"("+sValue+")"+"|"+"("+bValue+")"+"|"+"("+dValue+")"+"|"+"("+iValue+")" +")";
     private static final String JsonValue = "^\\{"+KV+"("+","+KV+")"+"*"+"\\}$";
-    private static final Pattern pattern = Pattern.compile(JsonValue);
+    private static final Pattern pattern = Pattern.compile(KV);
     private final Matcher matcher;
     private String JsonString;
 
@@ -39,7 +39,8 @@ public class JPairGenerator implements Iterable<JsonPair> {
             public JsonPair next() {
                 String s = matcher.group();
                 String[] key_value = s.split(":");
-                return new JsonPair(key_value[0], ValueFactory.CreatValue(key_value[1]));
+                return new JsonPair(key_value[0].replaceAll("\\s+",""),
+                        ValueFactory.CreatValue(key_value[1].replaceAll("\\s+","")));
             }
 
             public void remove() {
