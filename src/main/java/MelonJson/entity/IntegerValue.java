@@ -8,4 +8,8 @@ public class IntegerValue implements Value {
     public Integer get() {
         return mInteger;
     }
+    @Override
+    public String toString(){
+        return String.valueOf(mInteger);
+    }
 }

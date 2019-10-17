@@ -9,4 +9,9 @@ public class DoubleValue implements Value {
     public Double get() {
         return mdouble;
     }
+
+    @Override
+    public String toString(){
+        return String.valueOf(mdouble);
+    }
 }

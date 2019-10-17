@@ -1,11 +1,11 @@
 package MelonJson;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-
 import Exception.KeyDuplicate;
-
+import MelonJson.entity.JsonPair;
 import MelonJson.entity.Value;
+import MelonJson.util.JPairGenerator;
+
 public class JsonObject implements Json{
 
     private final LinkedHashMap<String, Value> map;
@@ -18,16 +18,21 @@ public class JsonObject implements Json{
         this.map = map;
     }
 
-    public boolean addReocrd(String key,Value value){
+    /*convert  String  to Json */
+    public JsonObject(String json){
+        map = new LinkedHashMap<String, Value>();
+        for(JsonPair jsonPair:new JPairGenerator(json)){
+            map.put(jsonPair.getKey(),jsonPair.getValue());
+        }
+    }
+
+
+    public boolean addRecord(String key,Value value){
         if(map.containsKey(key)) {
             throw new KeyDuplicate();
         }
         map.put(key,value);
         return true;
-    }
-
-    public boolean addRecord(String key, Value value) {
-        return false;
     }
 
     public boolean deleteRecord(String key) {
@@ -39,6 +44,6 @@ public class JsonObject implements Json{
     }
 
     public Value getRecord(String key) {
-        return null;
+        return map.get(key);
     }
 }

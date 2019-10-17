@@ -10,4 +10,8 @@ public class JsonValue implements Value{
     public Json get() {
         return mJson;
     }
+
+
+
+    //TODO Override toString function
 }

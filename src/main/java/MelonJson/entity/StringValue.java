@@ -8,4 +8,8 @@ public class StringValue implements Value {
     public String get() {
         return mString;
     }
+    @Override
+    public String toString(){
+        return "\"" + mString +"\"";
+    }
 }
