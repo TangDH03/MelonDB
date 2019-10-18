@@ -10,6 +10,6 @@ public class StringValue implements Value {
     }
     @Override
     public String toString(){
-        return "\"" + mString +"\"";
+        return   mString ;
     }
 }

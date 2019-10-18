@@ -9,7 +9,6 @@ import MelonJson.util.JPairGenerator;
 public class JsonObject implements Json{
 
     private final LinkedHashMap<String, Value> map;
-
     public JsonObject(){
         map = new LinkedHashMap<String, Value>();
     }
@@ -27,6 +26,22 @@ public class JsonObject implements Json{
         }
     }
 
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        map.forEach((k,v)->
+        {
+            sb.append(k);
+            sb.append(":");
+            sb.append(v);
+            sb.append(",");
+        });
+        if(sb.length()!=1)
+            sb.deleteCharAt(sb.length()-1);
+        sb.append("}");
+        return sb.toString();
+    }
 
     public boolean addRecord(String key,Value value){
         if(map.containsKey(key)) {
@@ -37,10 +52,18 @@ public class JsonObject implements Json{
     }
 
     public boolean deleteRecord(String key) {
+        if(map.containsKey(key)){
+            map.remove(key);
+            return true;
+        }
         return false;
     }
 
     public boolean changeRecord(String key, Value value) {
+        if(map.containsKey(key)){
+            map.put(key,value);
+            return true;
+        }
         return false;
     }
 

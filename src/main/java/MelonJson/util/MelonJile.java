@@ -1,9 +1,12 @@
 package MelonJson.util;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import MelonJson.Json;
 import MelonJson.JsonObject;
@@ -23,7 +26,12 @@ public class MelonJile {
 
 
 
-    public boolean writeFile(Json json){ // write Json To File
+    public boolean writeFile(Json json,File file) throws IOException { // write Json To File
+        if(!file.exists())
+            throw new IOException();
+        PrintWriter writer = new PrintWriter(new FileWriter(file));
+        writer.write(json.toString());
+        writer.flush();
         return true;
     }
 }
