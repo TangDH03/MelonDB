@@ -12,6 +12,11 @@ import MelonTable.Table;
 public class MelonableTest {
 
     @Test
+    public void addTest(){
+
+    }
+
+    @Test
     public void deleteTest(){
         Table table = new Melonable("user");
     }
@@ -37,6 +42,5 @@ public class MelonableTest {
         System.out.println(table.search("\"male\"","true"));
         System.out.println(table.search("\"name\"","\"tangdh\""));
         System.out.println(table.search("\"name\"","\"gzy\""));
-
     }
 }
