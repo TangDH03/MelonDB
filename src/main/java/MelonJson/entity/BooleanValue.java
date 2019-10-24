@@ -1,5 +1,7 @@
 package MelonJson.entity;
 
+import java.util.Objects;
+
 public class BooleanValue implements Value {
     private final Boolean mBoolean;
 
@@ -22,4 +24,16 @@ public class BooleanValue implements Value {
         return String.valueOf(mBoolean);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BooleanValue)) return false;
+        BooleanValue that = (BooleanValue) o;
+        return that.get().equals(this.get());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.get().hashCode();
+    }
 }

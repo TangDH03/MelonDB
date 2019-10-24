@@ -19,5 +19,7 @@ public interface Json {
 
     boolean isSubSet(Json json);
 
+    String getName();
+    void setName(String name);
 
 }

@@ -10,26 +10,57 @@ import MelonTable.Melonable;
 import MelonTable.Table;
 
 public class MelonableTest {
+    String s1 = "{\"name\":\"tangdh\",\"age\":13}";
+    String s2 = "{\"male\":true}";
+    String s3 = "{\"tall\":18.189,\"age\":13}";
+    String s4 = "{\"age\":124,\"tall\":1.189,\"male\":true}";
+    @Test
+    public void createTableTest(){
+        Table table = new Melonable("user");
+        table.add(new JsonObject(s1));
+        table.add(new JsonObject(s3));
+        table.add(new JsonObject(s2));
+        table.add(new JsonObject(s4));
 
+    }
+    @Test
+    public void deleteTableTest(){
+        Table table = new Melonable("user");
+        table.destory();
+    }
     @Test
     public void addTest(){
-
+        Table table = new Melonable("user");
+        table.add(new JsonObject(s1));
+        table.add(new JsonObject(s2));
+        table.add(new JsonObject(s3));
+        table.add(new JsonObject(s4));
     }
 
     @Test
     public void deleteTest(){
         Table table = new Melonable("user");
+        table.delete(new JsonObject(s2));
+        table.delete(new JsonObject(s1));
+
     }
     @Test
     public void changeTest(){
+        deleteTableTest();
         Table table = new Melonable("user");
+        table.add(new JsonObject(s1));
+        table.add(new JsonObject(s2));
+        table.change(new JsonObject(s1),new JsonObject(s3));
+
+
+
+
+
+
     }
     @Test
     public void searchTest(){
-        String s1 = "{\"name\":\"tangdh\",\"age\":13}";
-        String s2 = "{\"male\":true}";
-        String s3 = "{\"tall\":18.189,\"age\":37}";
-        String s4 = "{\"age\":124,\"tall\":1.189,\"male\":true,\"name\":\"gzy\"}";
+        deleteTableTest();
         Json json1 = new JsonObject(s1);
         Json json2 = new JsonObject(s2);
         Json json3 = new JsonObject(s3);

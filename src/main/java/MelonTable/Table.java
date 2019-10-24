@@ -10,5 +10,6 @@ public interface Table {
     List<Json>    search(String... Querys);
     List<Json>  search(Json json);
     String getName();
-    boolean change(Json json); //TODO
+    boolean change(Json json,Json newjson); //TODO
+    boolean destory();
 }

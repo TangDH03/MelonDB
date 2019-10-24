@@ -12,19 +12,21 @@ import MelonJson.entity.ValueFactory;
 import MelonJson.util.JPairGenerator;
 //TODO overwrite the equals and hashcode
 public class JsonObject implements Json{
-
-
     private final LinkedHashMap<String, Value> map;
+    private String name;
     public JsonObject(){
+        GenerateName();
         map = new LinkedHashMap<String, Value>();
     }
 
     public JsonObject(LinkedHashMap<String,Value> map){
+        GenerateName();
         this.map = map;
     }
 
     /*convert  String  to Json */
     public JsonObject(String json){
+        GenerateName();
         json = json.replaceAll("\n","");
         map = new LinkedHashMap<String, Value>();
         for(JsonPair jsonPair:new JPairGenerator(json)){
@@ -105,6 +107,16 @@ public class JsonObject implements Json{
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof JsonObject)) return false;
@@ -117,4 +129,8 @@ public class JsonObject implements Json{
         return map.hashCode();
     }
 
+
+    private void GenerateName(){
+        name = String.valueOf(System.currentTimeMillis())+".json";
+    }
 }

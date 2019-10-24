@@ -1,38 +1,92 @@
 package MelonTable;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import MelonJson.Json;
 import MelonJson.JsonObject;
+import MelonJson.entity.Value;
 import MelonJson.entity.ValueFactory;
+import MelonJson.util.MelonJile;
 
 public class Melonable implements Table {
 
 
-
+    private final String table_dir;
     private final String name;
+    private File file;
     private final List<Json> jsons;
 
     public Melonable(String name){
-        this.name = name;
-        jsons = new ArrayList<>();
+        this(name,".");
     }
 
-    public Melonable(String name,List<Json> jsons ){
-        this.jsons = jsons;                     //TODO confuse
+    public Melonable(String name,String location){
         this.name = name;
+        table_dir = location+System.getProperty("file.separator")+name;
+        file = new File(table_dir);
+        jsons = new ArrayList<>();
+        if(!file.exists()) {
+            file.mkdir();
+        }else{
+            MelonJile melonJile = new MelonJile();
+            for(File f:file.listFiles()){
+                try {
+                    Json json = melonJile.readFile(f);
+                    json.setName(f.getName());
+                    jsons.add(json);
+                }catch (IOException e){
+                    e.printStackTrace();
+                    System.err.println("Read Json"+f.getName()+"  fail");
+                }
+            }
+        }
     }
 
     @Override
-    public boolean add(Json json) {
+    public boolean destory() {
+        if(!file.exists())
+            return true;
+        MelonJile melonJile = new MelonJile();
+        for(File files:file.listFiles()){
+            melonJile.deleteFile(files);
+        }
+        try {
+            Files.delete(Paths.get(file.getCanonicalPath()));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        file = null;
+        return true;
+    }
+
+
+
+
+    @Override
+    public boolean add(Json json){
         List<Json> result = searchByJson(json);
         for(Json data:result){
             if (data.equals(json))
                 return false;
         }
+        try {
+            MelonJile melonJile = new MelonJile();
+            melonJile.writeFile(json,
+                    new File(table_dir+System.getProperty("file.separator")+json.getName()));
+        }catch (IOException e){
+            e.printStackTrace();
+            System.err.println("fail to create json file  "+table_dir+System.getProperty("file.separator")+json.getName() );
+        }
+
         jsons.add(json);
         return true;
     }
@@ -48,7 +102,9 @@ public class Melonable implements Table {
         List<Json> result = searchByJson(json);
         for(Json data:result){
             if(data.equals(json)) {
-                jsons.remove(json);
+                MelonJile melonJile = new MelonJile();
+                melonJile.deleteFile(new File(table_dir+System.getProperty("file.separator")+data.getName()));
+                jsons.remove(data);
                 return true;
             }
         }
@@ -71,9 +127,9 @@ public class Melonable implements Table {
     }
 
     @Override
-    public boolean change(Json json) {
+    public boolean change(Json json,Json newJson) {
         if(delete(json)) {
-            jsons.add(json);
+            add(newJson);
             return true;
         }
         return false;

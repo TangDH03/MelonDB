@@ -81,20 +81,20 @@ abstract class DB {
         return true;
     }
 
-    public boolean change(String Json){
+    public boolean change(String json,String newJson){
         if(usingTable==null)
             return false;
-        usingTable.change(new JsonObject(Json));
+        usingTable.change(new JsonObject(json),new JsonObject(newJson));
         return true;
     }
 
-    public boolean change(String... KV){
+    public boolean change(String json,String... KV){
         if(usingTable==null)
             return false;
         if(KV.length%2!=0)
             return false;
         Json ChangeJson = KV2Json(KV);
-        usingTable.change(ChangeJson);
+        usingTable.change(new JsonObject(json),ChangeJson);
         return true;
     }
 
