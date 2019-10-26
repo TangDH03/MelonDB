@@ -1,5 +1,6 @@
 package MelonDB;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,20 +9,25 @@ import MelonJson.JsonObject;
 import MelonJson.entity.ValueFactory;
 import MelonTable.Melonable;
 import MelonTable.Table;
+import javafx.scene.control.Tab;
 
-abstract class DB {
+public abstract class DB {
     private List<Table> tables;
     private Table usingTable;
     private String location;
     public DB(){
-        tables = new ArrayList<>();
-        usingTable = null;
-        location = "./MelonDB/";
+        this("./MelonDB/");
     }
     public DB(String location){
         tables = new ArrayList<>();
         usingTable = null;
         this.location = location;
+        File file = new File(location);
+        if(!file.exists())
+            file.mkdir();
+        for(File f:file.listFiles()){
+            tables.add(new Melonable(f.getName(),location));
+        }
     }
 
     public boolean creatingMelon(String name){
@@ -29,8 +35,20 @@ abstract class DB {
             if(table.getName().equals(name))
                 return false;
         }
-        tables.add(new Melonable(name));
+        tables.add(new Melonable(name,location));
         return true;
+    }
+
+    public boolean deleteMelon(String name){
+        for(Table table:tables){
+            if(table.getName().equals(name)&&!usingTable.getName().equals(name)){
+                tables.remove(table);
+                table.destory();
+                usingTable = null;
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean usingMelon(String name){
@@ -113,9 +131,14 @@ abstract class DB {
     }
 
 
+
+
+
+
+
     protected  Json KV2Json(String... KV){
         Json json = new JsonObject();
-        for(int i=0;i<KV.length-1;i++){
+        for(int i=0;i<KV.length-1;i+=2){
             json.addRecord(KV[i],ValueFactory.CreatValue(KV[i+1]));
         }
         return json;

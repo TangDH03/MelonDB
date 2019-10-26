@@ -33,7 +33,7 @@ public class Melonable implements Table {
         this.name = name;
         table_dir = location+System.getProperty("file.separator")+name;
         file = new File(table_dir);
-        jsons = new ArrayList<>();
+        jsons = new ArrayList<Json>();
         if(!file.exists()) {
             file.mkdir();
         }else{
