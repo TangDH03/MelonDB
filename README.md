@@ -1,10 +1,10 @@
-##MelonDB
+## MelonDB 
 
-A database project implemented by Java,it's not complicated and not very fast.
+A database project implemented by Java1.8,it's not complicated and not very fast.
 
 I used this project to familiar with Java,so it may be useless.
 
-##Quick start
+## Quick start
 
 1. create the table
 ```java
@@ -59,4 +59,4 @@ TODO
 - [ ] still thinking
 
 If you think it's interesting,star it
-##Welcome to issue and PR
+## Welcome to issue and PR
