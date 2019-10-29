@@ -119,7 +119,7 @@ public class Melonable implements Table {
             return null;
         }
         Json queryJson = new JsonObject();
-        for(int i=0;i<Querys.length-1;i++){
+        for(int i=0;i<Querys.length-1;i+=2){
             queryJson.addRecord(Querys[i],ValueFactory.CreatValue(Querys[i+1]));
         }
         return searchByJson(queryJson);
@@ -135,6 +135,23 @@ public class Melonable implements Table {
         return false;
     }
 
+    @Override
+    public boolean change(Json json,String... KV){
+        List<Json> result = searchByJson(json);
+        if(result.size()!=1){
+            return false;
+        }else{
+            Json bechanged = new JsonObject(json.toString());
+            if(KV.length%2!=0)
+                return false;
+            for(int i=0;i<KV.length-1;i+=2){
+                bechanged.deleteRecord(KV[i]);
+                bechanged.addRecord(KV[i],ValueFactory.CreatValue(KV[i+1]));
+            }
+            change(json,bechanged);
+        }
+        return true;
+    }
 
     private List<Json> searchByJson(Json json){
         List<Json> result = new LinkedList<>();

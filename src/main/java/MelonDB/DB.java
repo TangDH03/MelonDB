@@ -102,8 +102,7 @@ public abstract class DB {
     public boolean change(String json,String newJson){
         if(usingTable==null)
             return false;
-        usingTable.change(new JsonObject(json),new JsonObject(newJson));
-        return true;
+        return usingTable.change(new JsonObject(json),new JsonObject(newJson));
     }
 
     public boolean change(String json,String... KV){
@@ -111,10 +110,10 @@ public abstract class DB {
             return false;
         if(KV.length%2!=0)
             return false;
-        Json ChangeJson = KV2Json(KV);
-        usingTable.change(new JsonObject(json),ChangeJson);
-        return true;
+        return usingTable.change(new JsonObject(json),KV);
     }
+
+
 
 
     public List<Json> search(String Json){

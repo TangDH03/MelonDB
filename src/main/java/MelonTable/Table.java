@@ -12,4 +12,5 @@ public interface Table {
     String getName();
     boolean change(Json json,Json newjson); //TODO
     boolean destory();
+    boolean change(Json json,String... KV);
 }

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import MelonDB.DB;
 import MelonDB.MelonDB;
-import MelonJson.JsonObject;
 
 public class DBTest {
     String s1 = "{\"name\":\"tangdh\",\"age\":13}";
@@ -86,9 +85,9 @@ public class DBTest {
         db.usingMelon("Item");
         db.add(s1);
         Assertions.assertEquals(1,db.search("\"name\"","\"tangdh\"").size());
-        db.change(s1,s3);
-        Assertions.assertEquals(0,db.search("\"age\"","13").size());
-        Assertions.assertEquals(1,db.search("\"tall\"","18.189").size());
+        db.change(s1,"\"name\"","\"gzy\"");
+        Assertions.assertEquals(0,db.search("\"name\"","\"tangdh\"").size());
+        Assertions.assertEquals(1,db.search("\"name\"","\"gzy\"").size());
 
     }
 }
